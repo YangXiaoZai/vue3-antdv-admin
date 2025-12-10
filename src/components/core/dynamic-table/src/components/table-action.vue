@@ -62,6 +62,15 @@
   const getActions = computed(() => {
     return props.actions
       .filter((item) => {
+        if (item.ifShow !== undefined) {
+          if (typeof item.ifShow === 'function') {
+            if (!item.ifShow(item)) { return false }
+          }
+          else {
+            if (!item.ifShow) { return false }
+          }
+        }
+        
         const auth = item.auth;
 
         if (Object.is(auth, undefined)) {
